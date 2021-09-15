@@ -1,0 +1,55 @@
+#+TITLE: API Tests
+
+* Highlights
+** Create
+
+#+begin_src restclient
+POST http://127.0.0.1:8000/highlights
+Content-Type: application/json
+
+{
+  "id": "39cedde7-ae84-4272-9f39-e5104b6fd24d",
+  "textBefore": "this is the text before",
+  "text": "thisisthemaintext",
+  "originalText": "this is the main text",
+  "textAfter": "this is the text after",
+  "pageId": "ff7bd2f4-d143-4820-ab6c-5f5cc91e8e86"
+}
+
+
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+{
+  "message": "Highlight created."
+}
+// POST http://127.0.0.1:8000/highlights
+// HTTP/1.1 201 Created
+// date: Wed, 15 Sep 2021 20:01:36 GMT
+// server: uvicorn
+// content-length: 32
+// content-type: application/json
+// Request duration: 0.008183s
+#+END_SRC
+** Read
+
+#+begin_src restclient
+GET http://127.0.0.1:8000/highlights/62a7211e-bcb2-4011-b927-637c7d112fe1
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+[]
+// GET http://127.0.0.1:8000/highlights/62a7211e-bcb2-4011-b927-637c7d112fe1
+// HTTP/1.1 200 OK
+// date: Wed, 15 Sep 2021 20:15:30 GMT
+// server: uvicorn
+// content-length: 2
+// content-type: application/json
+// Request duration: 0.007884s
+#+END_SRC
+
+#+RESULTS:
+
+** Delete

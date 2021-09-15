@@ -8,6 +8,8 @@ license = "AGPL"
 [tool.poetry.dependencies]
 python = "^3.9"
 sqlmodel = "^0.0.4"
+pydantic = "^1.8.2"
+fastapi = {extras = ["all"], version = "^0.68.1"}
 
 [tool.poetry.dev-dependencies]
 
