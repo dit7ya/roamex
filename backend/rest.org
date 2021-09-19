@@ -13,7 +13,7 @@ Content-Type: application/json
   "text": "thisisthemaintext",
   "originalText": "this is the main text",
   "textAfter": "this is the text after",
-  "pageId": "ff7bd2f4-d143-4820-ab6c-5f5cc91e8e86"
+  "pageUrl": "https://google.com"
 }
 
 
@@ -26,30 +26,165 @@ Content-Type: application/json
 }
 // POST http://127.0.0.1:8000/highlights
 // HTTP/1.1 201 Created
-// date: Wed, 15 Sep 2021 20:01:36 GMT
+// date: Sat, 18 Sep 2021 02:51:48 GMT
 // server: uvicorn
 // content-length: 32
 // content-type: application/json
-// Request duration: 0.008183s
+// Request duration: 0.010618s
 #+END_SRC
 ** Read
 
 #+begin_src restclient
-GET http://127.0.0.1:8000/highlights/62a7211e-bcb2-4011-b927-637c7d112fe1
+# GET http://127.0.0.1:8000/highlights/?pageUrl=https://google.com
+GET http://127.0.0.1:8000/highlights/?pageUrl=https://google.com
 #+end_src
 
 #+RESULTS:
 #+BEGIN_SRC js
-[]
-// GET http://127.0.0.1:8000/highlights/62a7211e-bcb2-4011-b927-637c7d112fe1
+[
+  {
+    "text": "thisisthemaintext",
+    "textAfter": "this is the text after",
+    "originalText": "this is the main text",
+    "id": "39cedde7-ae84-4272-9f39-e5104b6fd24d",
+    "textBefore": "this is the text before",
+    "pageUrl": "https://google.com"
+  }
+]
+// GET http://127.0.0.1:8000/highlights/?pageUrl=https://google.com
 // HTTP/1.1 200 OK
-// date: Wed, 15 Sep 2021 20:15:30 GMT
+// date: Sat, 18 Sep 2021 02:51:53 GMT
 // server: uvicorn
-// content-length: 2
+// content-length: 220
 // content-type: application/json
-// Request duration: 0.007884s
+// Request duration: 0.009065s
 #+END_SRC
 
-#+RESULTS:
-
 ** Delete
+First create a highlight and
+
+#+begin_src restclient
+
+POST http://127.0.0.1:8000/highlights
+Content-Type: application/json
+
+{
+  "id": "9130c097-d7c8-4d4f-9241-99cca2d4d58a",
+  "textBefore": "this is the text before",
+  "text": "thisisthemaintext",
+  "originalText": "this is the main text",
+  "textAfter": "this is the text after",
+  "pageUrl": "https://halum.com"
+}
+
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+{
+  "message": "Highlight created."
+}
+// POST http://127.0.0.1:8000/highlights
+// HTTP/1.1 201 Created
+// date: Sat, 18 Sep 2021 02:52:54 GMT
+// server: uvicorn
+// content-length: 32
+// content-type: application/json
+// Request duration: 0.010637s
+#+END_SRC
+
+Then delete it.
+#+begin_src restclient
+DELETE http://127.0.0.1:8000/highlights/9130c097-d7c8-4d4f-9241-99cca2d4d58a
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+{
+  "message": "Highlight deleted."
+}
+// DELETE http://127.0.0.1:8000/highlights/9130c097-d7c8-4d4f-9241-99cca2d4d58a
+// HTTP/1.1 200 OK
+// date: Sat, 18 Sep 2021 02:52:57 GMT
+// server: uvicorn
+// content-length: 32
+// content-type: application/json
+// Request duration: 0.021558s
+#+END_SRC
+* Pages
+** Create
+
+#+begin_src restclient
+POST http://127.0.0.1:8000/pages
+Content-Type: application/json
+
+{
+  "url": "https://google.com",
+  "title": "Google"
+}
+
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+{
+  "message": "Page created."
+}
+// POST http://127.0.0.1:8000/pages
+// HTTP/1.1 201 Created
+// date: Sat, 18 Sep 2021 02:51:36 GMT
+// server: uvicorn
+// content-length: 27
+// content-type: application/json
+// Request duration: 0.010223s
+#+END_SRC
+
+** Read
+
+#+begin_src restclient
+
+GET http://127.0.0.1:8000/pages/?url=https://google.com
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+{
+  "title": "Google",
+  "url": "https://google.com"
+}
+// GET http://127.0.0.1:8000/pages/?url=https://google.com
+// HTTP/1.1 200 OK
+// date: Sat, 18 Sep 2021 02:54:51 GMT
+// server: uvicorn
+// content-length: 45
+// content-type: application/json
+// Request duration: 0.008558s
+#+END_SRC
+* Annotations
+** Create
+#+begin_src restclient
+POST http://127.0.0.1:8000/annotations
+Content-Type: application/json
+
+    {
+    "id": "65bd151e-b531-49cd-9824-8b9189186c0c",
+    "orgId": "f63b4cb8-1774-48d2-aad3-89c3b00bb21f",
+    "highlightId": "45c2774e-58c6-43fa-a1d4-f696603543f4",
+    "text": "a nice comment"
+    }
+
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+{
+  "message": "Annotation created."
+}
+// POST http://127.0.0.1:8000/annotations
+// HTTP/1.1 201 Created
+// date: Sat, 18 Sep 2021 04:50:32 GMT
+// server: uvicorn
+// content-length: 33
+// content-type: application/json
+// Request duration: 0.008272s
+#+END_SRC

@@ -4,30 +4,21 @@ from src import dbops
 # import fileops
 from uuid import UUID
 
-# from .database import create_db_and_tables
-from .models import Page, Highlight, AnnotationBase
+from pydantic import AnyUrl
+
+from .database import create_db_and_tables
+from .models import Page, Highlight, AnnotationBase, Annotation, AnnotationDB
 from fastapi import FastAPI, Response, status
-
-# from sqlmodel import Session
-
-
-# def create_db_and_tables():
-#     SQLModel.metadata.create_all(engine)
 
 
 # create_db_and_tables()  # TODO Look at me
-#
-#
-#
 
 app = FastAPI()
 
-# @app.on_event("startup")
-# def on_startup():
-#     create_db_and_tables()
 
-
-# session = get_session()
+@app.on_event("startup")
+def on_startup():
+    create_db_and_tables()
 
 
 ###########################################################
@@ -35,11 +26,11 @@ app = FastAPI()
 ###########################################################
 
 ## Create
-@app.post("/page", status_code=201)
+@app.post("/pages", status_code=201)
 def create_page(page: Page):
 
     # dbops
-    # dbops.create_page(page)
+    dbops.create_page(page)
 
     # fileops
     # fileops.create_page(page)
@@ -48,11 +39,11 @@ def create_page(page: Page):
 
 
 ## Read
-@app.get("/pages/{pageId}")
-def read_page(pageId: UUID):
+@app.get("/pages/")
+def read_page(url: AnyUrl):
 
     # dbops
-    # page = dbops.read_page(pageId)
+    page = dbops.read_page(url)
 
     # FIXME fileops
 
@@ -80,13 +71,10 @@ def create_highlight(highlight: Highlight):
 
 
 ## Read
-@app.get("/highlights/{pageId}")
-def read_highlights(pageId: UUID):
+@app.get("/highlights/")
+def read_highlights(pageUrl: AnyUrl):
 
-    # print("hello")
-    # dbops
-    highlights = dbops.read_highlights(pageId)
-    print(highlights)
+    highlights = dbops.read_highlights(pageUrl)
 
     return highlights
 
@@ -98,7 +86,7 @@ def read_highlights(pageId: UUID):
 def delete_highlight(id: UUID):
 
     # dbops
-    # dbops.delete_highlight(id)
+    dbops.delete_highlight(id)
     # fileops
     # fileops.delete_highlight(id)
 
@@ -112,10 +100,17 @@ def delete_highlight(id: UUID):
 
 ## Create
 @app.post("/annotations", status_code=201)
-def create_annotation(annotation: AnnotationBase):
+def create_annotation(annotation: Annotation):
+
+    annotationDb = AnnotationDB(
+        id=annotation.id,
+        orgId=annotation.orgId,
+        highlightId=annotation.highlightId,
+        pageUrl=annotation.pageUrl,
+    )
 
     # dbops
-    # dbops.create_annotation(annotation)
+    dbops.create_annotation(annotationDb)
 
     # fileops
     # fileops.create_annotation(annotation)
@@ -124,12 +119,11 @@ def create_annotation(annotation: AnnotationBase):
 
 
 ## Read
-@app.get("/annotations/{highlightId}")
-def read_annotations(highlightId: UUID):
+@app.get("/annotations/{pageUrl}")
+def read_annotations(pageUrl: AnyUrl):
 
     # dbops
-    # annotations = dbops.read_annotations(highlightId)
-
+    annotations = dbops.read_annotations(pageUrl)
     # FIXME fileops
 
     return annotations

@@ -13,15 +13,24 @@ class Highlight(SQLModel, table=True):
     text: str
     originalText: str
     textAfter: str
-    pageId: UUID = Field(foreign_key="page.id")
+    pageUrl: AnyUrl = Field(foreign_key="page.url")
 
 
-class AnnotationBase(SQLModel, table=True):
-    """AnnotationBase represents annotation data to be stored in the db."""
+class AnnotationBase(SQLModel):
+    """AnnotationBase represents annotation base class."""
 
     id: UUID = Field(primary_key=True)
     orgId: UUID
     highlightId: UUID = Field(foreign_key="highlight.id")
+    pageUrl: AnyUrl = Field(foreign_key="highlight.pageUrl")
+
+
+class AnnotationDB(AnnotationBase, table=True):
+    """AnnotationBase represents annotation data to be stored in the db."""
+
+    # Rationale :
+    # https://sqlmodel.tiangolo.com/tutorial/fastapi/multiple-models/#only-inherit-from-data-models
+    pass
 
 
 class Annotation(AnnotationBase):
@@ -31,26 +40,13 @@ class Annotation(AnnotationBase):
 
 
 class Page(SQLModel, table=True):
-    """Page represents a webpage."""
+    """Page represents a webpage.
 
-    id: UUID = Field(primary_key=True)
-    url: AnyUrl
+    NOTE Page's url should be its primary key because in that way
+    the client can be stateless and will not have to store the ids.
+
+    """
+
+    # id: UUID = Field(primary_key=True)
+    url: AnyUrl = Field(primary_key=True)
     title: str
-
-
-# class OrgFile(BaseModel):
-#     filepath: FilePath
-#     node_idx: Optional[int]
-
-
-# class Note(BaseModel):
-#     """
-#     Data model for a Note.
-
-#     A Note is a highlight + annotation + page_metadata + file_metadata
-#     """
-
-#     highlight: Highlight
-#     annotation: Annotation
-#     page: Page
-#     orgfile: OrgFile

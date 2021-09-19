@@ -1,7 +1,8 @@
 from .database import engine
 from sqlmodel import Session, select
-from .models import Highlight, AnnotationBase, Page
+from .models import Highlight, Page, AnnotationDB
 from uuid import UUID
+from pydantic import AnyUrl
 
 
 # from sqlmodel import SQLModel, create_engine
@@ -15,14 +16,22 @@ from uuid import UUID
 #### Page
 ###########################################################
 
-## TODO Create
+
 def create_page(page: Page):
-    pass
+
+    with Session(engine) as session:
+
+        session.add(page)
+        session.commit()
 
 
-## TODO Read
-def read_page(pageId: UUID):
-    pass
+def read_page(url: AnyUrl):
+
+    with Session(engine) as session:
+        statement = select(Page).where(Page.url == url)
+        result = session.exec(statement).one()
+
+        return result
 
 
 ## Update - NOTE not required
@@ -37,34 +46,16 @@ def read_page(pageId: UUID):
 def create_highlight(highlight: Highlight):
     with Session(engine) as session:
 
-        statement = select(Highlight).where(
-            Highlight.pageId == "ff7bd2f4-d143-4820-ab6c-5f5cc91e8e86"
-        )
-
-        results = session.exec(statement)
-        for r in results:
-            print(r)
         session.add(highlight)
         session.commit()
 
 
 ## Read
-def read_highlights(pageId: UUID):
+def read_highlights(pageUrl: AnyUrl):
     """Return all highlights associated with the pageId."""
-    # print(pageId)
-    # session = get_session()
     with Session(engine) as session:
-        statement = select(Highlight).where(Highlight.pageId == pageId)
-        # statement = select(Highlight)
-
-        # statement = select(Highlight).where(
-        #     Highlight.pageId == "ff7bd2f4-d143-4820-ab6c-5f5cc91e8e86"
-        # )
-        # print(statement)
+        statement = select(Highlight).where(Highlight.pageUrl == pageUrl)
         results = session.exec(statement)
-        # print(type(results))
-        # for r in results:
-        #     print(r)
 
         return [x for x in results]
 
@@ -74,21 +65,35 @@ def read_highlights(pageId: UUID):
 
 ## Delete
 def delete_highlight(id: UUID):
-    pass
+
+    with Session(engine) as session:
+        statement = select(Highlight).where(Highlight.id == id)
+        result = session.exec(statement).one()
+
+        session.delete(result)
+        session.commit()
 
 
 ###########################################################
 #### AnnotationBase
 ###########################################################
 
-## TODO Create
-def create_annotation(annotation: AnnotationBase):
-    pass
+
+def create_annotation(annotationDb: AnnotationDB):
+
+    with Session(engine) as session:
+
+        session.add(annotationDb)
+        session.commit()
 
 
-## TODO Read
-def read_annotations(highlightId):
-    pass
+def read_annotations(pageUrl):
+
+    with Session(engine) as session:
+        statement = select(AnnotationDB).where(AnnotationDB.pageUrl == pageUrl)
+        results = session.exec(statement)
+
+        return [r for r in results]
 
 
 ## TODO Update
