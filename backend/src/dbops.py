@@ -2,7 +2,8 @@ from .database import engine
 from sqlmodel import Session, select
 from .models import Highlight, Page, AnnotationDB
 from uuid import UUID
-from pydantic import AnyUrl
+
+# from pydantic import AnyUrl
 
 
 # from sqlmodel import SQLModel, create_engine
@@ -25,10 +26,10 @@ def create_page(page: Page):
         session.commit()
 
 
-def read_page(url: AnyUrl):
+def read_page(pageId: UUID):
 
     with Session(engine) as session:
-        statement = select(Page).where(Page.url == url)
+        statement = select(Page).where(Page.id == pageId)
         result = session.exec(statement).one()
 
         return result
@@ -51,13 +52,22 @@ def create_highlight(highlight: Highlight):
 
 
 ## Read
-def read_highlights(pageUrl: AnyUrl):
+def read_highlights(pageId: UUID):
     """Return all highlights associated with the pageId."""
     with Session(engine) as session:
-        statement = select(Highlight).where(Highlight.pageUrl == pageUrl)
+        statement = select(Highlight).where(Highlight.pageId == pageId)
         results = session.exec(statement)
 
         return [x for x in results]
+
+
+def read_highlight(highlightId: UUID):
+    """Return the highlight associated with the given Id."""
+    with Session(engine) as session:
+        statement = select(Highlight).where(Highlight.id == highlightId)
+        result = session.exec(statement).one()
+
+        return result
 
 
 ## Update
@@ -87,10 +97,10 @@ def create_annotation(annotationDb: AnnotationDB):
         session.commit()
 
 
-def read_annotations(pageUrl):
+def read_annotations(pageId):
 
     with Session(engine) as session:
-        statement = select(AnnotationDB).where(AnnotationDB.pageUrl == pageUrl)
+        statement = select(AnnotationDB).where(AnnotationDB.pageId == pageId)
         results = session.exec(statement)
 
         return [r for r in results]

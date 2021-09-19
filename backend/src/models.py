@@ -3,6 +3,7 @@
 from sqlmodel import Field, SQLModel
 from pydantic import AnyUrl
 from uuid import UUID
+from typing import Optional
 
 
 class Highlight(SQLModel, table=True):
@@ -13,16 +14,16 @@ class Highlight(SQLModel, table=True):
     text: str
     originalText: str
     textAfter: str
-    pageUrl: AnyUrl = Field(foreign_key="page.url")
+    pageId: UUID = Field(foreign_key="page.id")
 
 
 class AnnotationBase(SQLModel):
     """AnnotationBase represents annotation base class."""
 
     id: UUID = Field(primary_key=True)
-    orgId: UUID
+    orgNodeId: Optional[UUID]
     highlightId: UUID = Field(foreign_key="highlight.id")
-    pageUrl: AnyUrl = Field(foreign_key="highlight.pageUrl")
+    pageId: UUID = Field(foreign_key="highlight.pageId")
 
 
 class AnnotationDB(AnnotationBase, table=True):
@@ -42,11 +43,11 @@ class Annotation(AnnotationBase):
 class Page(SQLModel, table=True):
     """Page represents a webpage.
 
-    NOTE Page's url should be its primary key because in that way
+    NOTE ???? Page's url should be its primary key because in that way
     the client can be stateless and will not have to store the ids.
 
     """
 
-    # id: UUID = Field(primary_key=True)
-    url: AnyUrl = Field(primary_key=True)
+    id: UUID = Field(primary_key=True)
+    url: AnyUrl
     title: str

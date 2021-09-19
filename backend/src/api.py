@@ -119,17 +119,17 @@ def create_annotation(annotation: Annotation):
 
 
 ## Read
-@app.get("/annotations/{pageUrl}")
-def read_annotations(pageUrl: AnyUrl):
+@app.get("/annotations/{url}")
+def read_annotations(url: AnyUrl):
 
     # dbops
-    annotations = dbops.read_annotations(pageUrl)
-    # FIXME fileops
+    annotations = dbops.read_annotations(url)
+    # TODO fileops
 
     return annotations
 
 
-## Update
+## Update TODO
 @app.put("/annotations/{id}")
 def update_annotation(id: UUID):
 
@@ -141,7 +141,7 @@ def update_annotation(id: UUID):
     return {"message": "Annotation updated."}
 
 
-## Delete
+## Delete TODO
 @app.delete("/annotation/{id}")
 def delete_annotation(id: UUID):
 

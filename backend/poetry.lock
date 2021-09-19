@@ -241,6 +241,18 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
+name = "orgparse"
+version = "0.2.4"
+description = "orgparse - Emacs org-mode parser in Python"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.extras]
+linting = ["pytest", "mypy", "lxml"]
+testing = ["pytest"]
+
+[[package]]
 name = "orjson"
 version = "3.6.3"
 description = "Fast, correct Python JSON library supporting dataclasses, datetimes, and numpy"
@@ -490,7 +502,7 @@ python-versions = ">=3.6.1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "2f13f50f7222d8d07e80fc5e5225dc7709523c5b3070dbfd066439ce0d369e35"
+content-hash = "aa12d9987d12fed375767b25433c9ec46d269990553cda49f26d5cbec72f53c2"
 
 [metadata.files]
 aiofiles = [
@@ -689,6 +701,10 @@ markupsafe = [
     {file = "MarkupSafe-2.0.1-cp39-cp39-win32.whl", hash = "sha256:10f82115e21dc0dfec9ab5c0223652f7197feb168c940f3ef61563fc2d6beb74"},
     {file = "MarkupSafe-2.0.1-cp39-cp39-win_amd64.whl", hash = "sha256:693ce3f9e70a6cf7d2fb9e6c9d8b204b6b39897a2c4a1aa65728d5ac97dcc1d8"},
     {file = "MarkupSafe-2.0.1.tar.gz", hash = "sha256:594c67807fb16238b30c44bdf74f36c02cdf22d1c8cda91ef8a0ed8dabf5620a"},
+]
+orgparse = [
+    {file = "orgparse-0.2.4-py3-none-any.whl", hash = "sha256:5f3ef34198b7adc0f392808742e65779285896dd3de1ffb0aa20b751b9fc6e60"},
+    {file = "orgparse-0.2.4.tar.gz", hash = "sha256:5b6c3012cf459b0201d42f58dd02da96beeed0913f64080f150b2666655b4d74"},
 ]
 orjson = [
     {file = "orjson-3.6.3-cp310-cp310-manylinux_2_24_aarch64.whl", hash = "sha256:5f78ed46b179585272a5670537f2203dbb7b3e2f8e4db1be72839cc423e2daef"},
