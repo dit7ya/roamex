@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+  "name": "roamex",
+  "description": "description",
+  "version": "0.0.4",
+  "icons": {
+    "64": "icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["index.js"],
+      "css": ["global.css"]
+    }
+  ],
+  "permissions": ["*://127.0.0.1/*"]
+}

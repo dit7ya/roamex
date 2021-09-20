@@ -1,0 +1,6 @@
+/dist/index.js
+/dist/index.css
+/node_modules/
+/.log/
+/.storybook/
+/dist/windi.css

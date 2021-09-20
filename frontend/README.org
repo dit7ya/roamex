@@ -1,0 +1,35 @@
+#+TITLE: Readme
+
+* Tasks
+** KILL use this for highlighting pages https://github.com/alienzhou/web-highlighter
+** KILL create a Monaco instance
+** DONE Plan a workflow model
+* Workflow Model
+** Highlight/ Annotation Creation
+- open page
+- select text, a tooltip menu pops up
+- click on highlight or annotate
+- annotation textbox opens
+- write comments with org-mode syntax
+- choose node to append to with a tree like filtering (should use ripgrep for quickly finding all subtree headers)
+- annotation with metadata gets appended to the specified node
+** Storage
+
+*** org-files
+
+- when a user opens a page, they might want to take notes on
+  - a new file -> create a new file
+  - an existing node with no previous roamex notes -> create a roamex subtree under that node
+  - an existing node with previous roamex notes
+    - for the same url -> create a new subtree for the new note
+    - for a new url -> create a new URL subtree
+*** extension
+**** when a user opens a URL, the extension needs to retrieve all the highlights and annotations of the current page
+- lets store all of that in IndexedDB
+  - how to keep it synced?
+***** a page might have annotations in different files
+****** Maintain a database of URL to nodes mapping?
+if the annotation is editable and is synced two ways, how to ensure that?
+* FIXME
+** Encode URLs before storing, otherwise FastAPI can mistake queries
+- for example, retrieving notes do not work on http://127.0.0.1:13579/notes?url=https://news.ycombinator.com/item?id=28262122
