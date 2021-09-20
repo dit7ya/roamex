@@ -149,17 +149,17 @@ GET http://127.0.0.1:8000/pages/?url=https://google.com
 #+RESULTS:
 #+BEGIN_SRC js
 {
-  "title": "Google",
-  "url": "https://google.com"
+  "message": "Page does not exist"
 }
 // GET http://127.0.0.1:8000/pages/?url=https://google.com
 // HTTP/1.1 200 OK
-// date: Sat, 18 Sep 2021 02:54:51 GMT
+// date: Mon, 20 Sep 2021 11:56:55 GMT
 // server: uvicorn
-// content-length: 45
+// content-length: 33
 // content-type: application/json
-// Request duration: 0.008558s
+// Request duration: 0.009725s
 #+END_SRC
+
 * Annotations
 ** Create
 #+begin_src restclient

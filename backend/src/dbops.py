@@ -3,7 +3,7 @@ from sqlmodel import Session, select
 from .models import Highlight, Page, AnnotationDB
 from uuid import UUID
 
-# from pydantic import AnyUrl
+from pydantic import AnyUrl
 
 
 # from sqlmodel import SQLModel, create_engine
@@ -14,7 +14,7 @@ from uuid import UUID
 # engine = create_engine(sqlite_url, connect_args={"check_same_thread": False})
 
 ###########################################################
-#### Page
+# Page
 ###########################################################
 
 
@@ -26,13 +26,15 @@ def create_page(page: Page):
         session.commit()
 
 
-def read_page(pageId: UUID):
+def read_page(pageUrl: AnyUrl):
 
     with Session(engine) as session:
-        statement = select(Page).where(Page.id == pageId)
-        result = session.exec(statement).one()
-
-        return result
+        statement = select(Page).where(Page.url == pageUrl)
+        try:
+            result = session.exec(statement).one()
+            return result
+        except Exception:
+            return {"message": "Page does not exist"}
 
 
 ## Update - NOTE not required

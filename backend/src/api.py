@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from src import dbops
+from src import fileops
 
 # import fileops
 from uuid import UUID
@@ -62,6 +63,7 @@ def read_page(url: AnyUrl):
 def create_highlight(highlight: Highlight):
 
     # dbops
+    # print(highlight)
     dbops.create_highlight(highlight)
 
     # fileops
@@ -71,10 +73,11 @@ def create_highlight(highlight: Highlight):
 
 
 ## Read
-@app.get("/highlights/")
-def read_highlights(pageUrl: AnyUrl):
+@app.get("/highlights/{pageId}")
+def read_highlights(pageId: UUID):
 
-    highlights = dbops.read_highlights(pageUrl)
+    print(pageId)
+    highlights = dbops.read_highlights(pageId)
 
     return highlights
 
@@ -113,7 +116,7 @@ def create_annotation(annotation: Annotation):
     dbops.create_annotation(annotationDb)
 
     # fileops
-    # fileops.create_annotation(annotation)
+    fileops.create_annotation(annotation)
 
     return {"message": "Annotation created."}
 

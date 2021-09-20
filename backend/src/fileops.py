@@ -1,4 +1,4 @@
-from database import engine
+# from database import engine
 from sqlmodel import Session
 from .models import Highlight, AnnotationBase, Page, Annotation
 from functools import lru_cache
@@ -145,6 +145,6 @@ def create_annotation(annotation: Annotation):
     # TODO the other case
 
 
-## Read
+# Read
 ## Update
 ## Delete
