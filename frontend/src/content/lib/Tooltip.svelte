@@ -1,16 +1,26 @@
 <script>
   export let left;
   export let top;
-  export let handleClick;
+  export let handleHighlightClick;
+  export let handleAnnotateClick;
 </script>
 
 <div id="roamex-tooltip" style="--posleft: {left}; --postop: {top};">
-  <button
-    on:click={handleClick}
-    class="px-4 py-2 bg-blue-600 rounded-md text-white outline-none focus:ring-4 hover:bg-blue-800 shadow-lg mx-5 flex font-bold"
-  >
-    Highlight!
-  </button>
+  <div class="flex">
+    <button
+      on:click={handleHighlightClick}
+      class="px-2 py-1 bg-blue-600 rounded-md text-white outline-none focus:ring-4 hover:bg-blue-800 shadow-lg flex font-bold m-1"
+    >
+      Highlight
+    </button>
+
+    <button
+      on:click={handleAnnotateClick}
+      class="px-2 py-1 bg-blue-600 rounded-md text-white outline-none focus:ring-4 hover:bg-blue-800 shadow-lg flex font-bold m-1"
+    >
+      Annotate
+    </button>
+  </div>
 </div>
 
 <style>

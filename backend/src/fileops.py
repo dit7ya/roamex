@@ -54,23 +54,23 @@ org_roam_directory = config["org_roam_directory"]
 
 def create_page(page: Page):
     """Create new page under Roamex directory."""
-    Path.mkdir(org_roam_directory, exist_ok=True)  # FIXME better
+    # Path.mkdir(org_roam_directory, exist_ok=True)  # FIXME better
 
-    filename = page.id + ".org"
+    filename = str(page.id) + ".org"
 
     file_content = (
-        ":PROPERTIES:"
-        f":ID:       {page.id}"
-        f":ROAM_REFS: {page.url}"
-        ":END:"
-        f"#+title: {page.title}"
-        ""
-        f"* Highlights"
-        f"* Annotations"
+        ":PROPERTIES:\n"
+        f":ID:       {page.id}\n"
+        f":ROAM_REFS: {page.url}\n"
+        ":END:\n"
+        f"#+title: {page.title}\n"
+        "\n"
+        f"* Highlights\n"
+        f"* Annotations\n"
     )
 
     # Create a new file, based on page attributes
-    with open(org_roam_directory + filename, "w") as orgFile:
+    with open(org_roam_directory + "/roamex/" + filename, "w") as orgFile:
         # TODO Raise Error if file already exists
         orgFile.write(file_content)
 
@@ -90,7 +90,7 @@ def create_page(page: Page):
 def create_highlight(highlight: Highlight):
     # Highlights are always stored in the dedicated roamex page file
 
-    pageLocation = f'{org_roam_directory} + "/roamex/" + {highlight.pageId} + .org'
+    pageLocation = f"{org_roam_directory}/roamex/{highlight.pageId}.org"
 
     orgFile = load(pageLocation)
 
@@ -101,7 +101,7 @@ def create_highlight(highlight: Highlight):
         f":END:\n"
     )
     # Highlights is the 1st node REVIEW
-    highlight_node = str(orgFile[1])
+    highlight_node = str(orgFile[1])  # TODO MAKE THIS LIKE ANNOTATION via filter
     replace_in_file(highlight_node, content, pageLocation)
 
 
@@ -122,10 +122,10 @@ def create_annotation(annotation: Annotation):
     # If orgNodeId is not provided, create annotation on the orgFile
     if not annotation.orgNodeId:
         # TODO
-        pageLocation = f'{org_roam_directory} + "/roamex/" + {annotation.pageId} + .org'
+        pageLocation = f"{org_roam_directory}/roamex/{annotation.pageId}.org"
 
         highlightId = annotation.highlightId
-        highlight_text = dbops.read_highlight(highlightId)["originalText"]
+        highlight_text = dbops.read_highlight(highlightId).originalText
 
         orgFile = load(pageLocation)
 
@@ -138,7 +138,14 @@ def create_annotation(annotation: Annotation):
             f"{annotation.text}\n"
         )
         # Annotation is the 2nd node REVIEW
-        annotation_node = str(orgFile[2])
+
+        # print(list(map(lambda x: {x.heading: x.level}, orgFile)))
+        annotation_node = str(
+            list(
+                filter(lambda x: x.heading == "Annotations" and x.level == 1, orgFile)
+            )[0]
+        )
+        # print(list(annotation_node))
         replace_in_file(annotation_node, content, pageLocation)
 
         return

@@ -2,9 +2,12 @@ from .database import engine
 from sqlmodel import Session, select
 from .models import Highlight, Page, AnnotationDB
 from uuid import UUID
+import sqlite3
 
 from pydantic import AnyUrl
 
+
+org_roam_db_location = "/home/halum/.emacs.d/.local/etc/org-roam.db"
 
 # from sqlmodel import SQLModel, create_engine
 
@@ -24,6 +27,7 @@ def create_page(page: Page):
 
         session.add(page)
         session.commit()
+    return
 
 
 def read_page(pageUrl: AnyUrl):
@@ -37,8 +41,8 @@ def read_page(pageUrl: AnyUrl):
             return {"message": "Page does not exist"}
 
 
-## Update - NOTE not required
-## Delete - NOTE not required
+# Update - NOTE not required
+# Delete - NOTE not required
 
 ###########################################################
 #### Highlights
@@ -116,3 +120,24 @@ def update_annotation(id):
 ## TODO Delete
 def delete_annotation(id):
     pass
+
+
+def read_org_roam_nodes():
+    # TODO REVIEW
+    """
+    Returns all org-roam nodes stored in its database.
+    """
+    con = sqlite3.connect(org_roam_db_location)
+    cur = con.cursor()
+
+    data = cur.execute("SELECT id, title FROM nodes")
+
+    data_stripped = [
+        {"id": row[0].strip('"'), "title": row[1].strip('"')} for row in data
+    ]
+
+    if not data:
+        con.close()
+        return []
+    con.close()
+    return data_stripped

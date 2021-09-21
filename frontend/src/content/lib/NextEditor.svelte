@@ -1,16 +1,17 @@
 <script>
     import Tribute from "tributejs";
     import { onMount } from "svelte";
-  // import { getOrgRoamNodes } from "../apiCalls.js";
-    import NodeChoice from "./NodeChoice.svelte";
+  import { getOrgRoamNodes } from "../apiCalls.js";
+  // import NodeChoice from "./NodeChoice.svelte";
 
     export let editorContent = "";
     export let handleClick;
-    export let selectedFile;
-    export let selectedNode;
+  // export let selectedFile;
+  // export let selectedNode;
 
     onMount(async () => {
         const orgNodes = await getOrgRoamNodes();
+        console.log(orgNodes)
 
         let values = orgNodes.map((x) => ({ key: x.title, value: x.id }));
 
@@ -59,9 +60,9 @@
             bind:textContent={editorContent}
         />
 
-        <div class="flex my-4">
-            <NodeChoice bind:selectedFile bind:selectedNode />
-        </div>
+        <!-- <div class="flex my-4">
+             <NodeChoice bind:selectedFile bind:selectedNode />
+             </div> -->
         <button
             on:click={() => {
                 handleClick();

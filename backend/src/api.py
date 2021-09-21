@@ -30,11 +30,14 @@ def on_startup():
 @app.post("/pages", status_code=201)
 def create_page(page: Page):
 
+    # fileops
+    fileops.create_page(page)
+
+    # REVIEW Fileops must be run first cause once dbops uses the
+    # page object in its session it is no longer available
+
     # dbops
     dbops.create_page(page)
-
-    # fileops
-    # fileops.create_page(page)
 
     return {"message": "Page created."}
 
@@ -62,12 +65,12 @@ def read_page(url: AnyUrl):
 @app.post("/highlights", status_code=201)
 def create_highlight(highlight: Highlight):
 
+    # fileops
+    fileops.create_highlight(highlight)
     # dbops
+    #
     # print(highlight)
     dbops.create_highlight(highlight)
-
-    # fileops
-    # fileops.create_highlight(highlight)
 
     return {"message": "Highlight created."}
 
@@ -107,16 +110,16 @@ def create_annotation(annotation: Annotation):
 
     annotationDb = AnnotationDB(
         id=annotation.id,
-        orgId=annotation.orgId,
+        # orgId=annotation.orgId, // TODO FIXME
         highlightId=annotation.highlightId,
-        pageUrl=annotation.pageUrl,
+        pageId=annotation.pageId,
     )
-
-    # dbops
-    dbops.create_annotation(annotationDb)
 
     # fileops
     fileops.create_annotation(annotation)
+
+    # dbops
+    dbops.create_annotation(annotationDb)
 
     return {"message": "Annotation created."}
 
@@ -145,7 +148,7 @@ def update_annotation(id: UUID):
 
 
 ## Delete TODO
-@app.delete("/annotation/{id}")
+@app.delete("/annotations/{id}")
 def delete_annotation(id: UUID):
 
     # dbops
@@ -154,3 +157,10 @@ def delete_annotation(id: UUID):
     # fileops.delete_annotation(id)
 
     return {"message": "Annotation deleted."}
+
+
+@app.get("/orgRoamNodes")
+def read_org_roam_nodes():
+    org_roam_nodes = dbops.read_org_roam_nodes()
+
+    return org_roam_nodes

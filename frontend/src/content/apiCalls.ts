@@ -39,9 +39,12 @@ export const Highlight = {
 // Create an Annotation Object with methods
 
 export const Annotation = {
-  createAnnotaion: (annotation: AnnotationType): Promise<AnnotationType> =>
+  createAnnotation: (annotation: AnnotationType): Promise<AnnotationType> =>
     requests.post("/annotations", annotation),
 };
+
+// TODO HACK REVIEW
+export const getOrgRoamNodes = () => requests.get("/orgRoamNodes");
 
 // export const readOrgFiles = async () => {
 //   const res = await axios.get(serverLocation + "orgFiles");
