@@ -1,0 +1,27 @@
+:PROPERTIES:
+:ID:       a4300241-4fc9-481b-a2cc-0efb7ed479e1
+:ROAM_REFS: https://google.com
+:END:
+#+title: Google
+
+Page comment
+* Highlights
+
+** Highlight 1 text
+:PROPERTIES:
+:ID:       1245c4b6-faae-4c0d-8aff-4c2689457eac
+:END:
+
+** Highlight 2 text
+:PROPERTIES:
+:ID:       e2435d10-7870-4ab9-abd6-07b41cfd17d1
+:END:
+
+* Annotations
+
+** Annotation on [[id:e2435d10-7870-4ab9-abd6-07b41cfd17d1][Highlight 2 text]]
+:PROPERTIES:
+:ID:       7a31f5bf-b1ab-477c-9dbf-a2902a32daab
+:END:
+
+annotation in this romex file

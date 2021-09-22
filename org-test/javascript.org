@@ -1,0 +1,24 @@
+:PROPERTIES:
+:ID:       29cd22d3-6bcc-4f08-bc97-a49bdd72a9ef
+:END:
+#+TITLE: Javascript
+
+* Header 3232
+
+** Roamex
+
+*** https://google.com
+
+**** annotation on - [[id:1245c4b6-faae-4c0d-8aff-4c2689457eac][Highlight 1 text]]
+:PROPERTIES:
+:ID:       7c0315a1-d17e-4bcf-b22c-8e9cbbe79663
+:END:
+
+Annotation text 1 dlfjlsadjflsaj
+
+**** annotaion on - [[id:e2435d10-7870-4ab9-abd6-07b41cfd17d1][Highlight 2 text]]
+:PROPERTIES:
+:ID:       945ee33a-b611-4562-93bc-0d48e9461445
+:END:
+
+Annotation text 2 jfajflsal

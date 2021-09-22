@@ -1,0 +1,20 @@
+:PROPERTIES:
+:ID:       106f9257-a4b0-4a32-9977-473a2ba0d553
+:END:
+#+TITLE: Python
+
+* Header 1
+
+* Header 2
+
+** Roamex
+
+*** https://google.com
+
+**** annotation on - [[id:e2435d10-7870-4ab9-abd6-07b41cfd17d1][Highlight 2 text]]
+:PROPERTIES:
+:ID:       2100f82a-f8a5-4f85-8f9e-211867caeebe
+:END:
+
+   annotation from python
+*** https://python.org
