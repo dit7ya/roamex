@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 from src import dbops
 from src import fileops
 

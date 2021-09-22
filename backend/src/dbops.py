@@ -3,11 +3,14 @@ from sqlmodel import Session, select
 from .models import Highlight, Page, AnnotationDB
 from uuid import UUID
 import sqlite3
+from .fileops import get_config
 
 from pydantic import AnyUrl
 
 
-org_roam_db_location = "/home/halum/.emacs.d/.local/etc/org-roam.db"
+config = get_config()
+
+org_roam_db_location = config["org_roam_db_location"]
 
 # from sqlmodel import SQLModel, create_engine
 
