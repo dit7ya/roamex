@@ -1,0 +1,15 @@
+#+TITLE: Readme
+* Installation and Usage
+** Backend
+
+#+begin_src sh
+cd backend
+poetry build
+cd dist
+
+pip install <the generated .whl file>
+
+roamex serve
+#+end_src
+** Frontend
+Get the .xpi file from me and install in Firefox
