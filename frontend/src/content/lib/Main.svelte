@@ -49,6 +49,7 @@
         console.log("handleMouseUp being executed, selection is", selection);
 
         if (selection.isCollapsed) {
+            showTooltip = false
             return null;
         } else {
             // console.log(selection);
@@ -91,7 +92,7 @@
                 url: url,
                 title: title,
             };
-            Page.createPage(thisPage).then(() => console.log("page created"));
+            Page.createPage(thisPage).then(() => console.log("Page created"));
         }
             highlight = {
                 id: serialized.uid, // TODO IMPORTANT REVIEW HOW UID becomes id
