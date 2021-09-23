@@ -1,6 +1,6 @@
 from .database import engine
 from sqlmodel import Session, select
-from .models import Highlight, Page, AnnotationDB
+from .models import Highlight, PageDB, AnnotationDB
 from uuid import UUID
 import sqlite3
 from .fileops import get_config
@@ -24,7 +24,7 @@ org_roam_db_location = config["org_roam_db_location"]
 ###########################################################
 
 
-def create_page(page: Page):
+def create_page(page: PageDB):
 
     with Session(engine) as session:
 
@@ -36,7 +36,7 @@ def create_page(page: Page):
 def read_page(pageUrl: AnyUrl):
 
     with Session(engine) as session:
-        statement = select(Page).where(Page.url == pageUrl)
+        statement = select(PageDB).where(PageDB.url == pageUrl)
         try:
             result = session.exec(statement).one()
             return result

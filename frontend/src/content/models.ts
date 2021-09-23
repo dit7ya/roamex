@@ -19,4 +19,5 @@ export interface PageType {
   id: string; // FIXME
   url: string; //FIXME
   title: string;
+  pageComment?: string;
 }

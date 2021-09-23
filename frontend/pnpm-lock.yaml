@@ -13,13 +13,14 @@ specifiers:
   esbuild-svelte: ^0.5.6
   eslint-plugin-svelte3: ^3.2.1
   hotkeys-js: ^3.8.7
-  normalize-url: '4'
   simple-svelte-autocomplete: ^2.2.3
   svelte: ^3.43.0
+  svelte-actions: ^0.1.0
   svelte-check: ^2.2.6
   svelte-click-outside: ^1.0.0
   svelte-loader: ^3.1.2
   svelte-multiselect: ^1.1.11
+  svelte-outside-click: ^1.1.1
   svelte-preprocess: ^4.9.5
   svelte-windicss-preprocess: ^4.0.12
   tributejs: ^5.1.3
@@ -32,8 +33,9 @@ dependencies:
   axios: 0.21.4
   esbuild-svelte: 0.5.6_esbuild@0.12.29
   hotkeys-js: 3.8.7
-  normalize-url: 4.5.1
+  svelte-actions: 0.1.0
   svelte-click-outside: 1.0.0
+  svelte-outside-click: 1.1.1
   tributejs: 5.1.3
   uuid: 8.3.2
 
@@ -863,11 +865,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /normalize-url/4.5.1:
-    resolution: {integrity: sha512-9UZCFRHQdNrfTpGg8+1INIg93B6zE0aXMVFkw1WFwvO4SlZywU6aLg5Of0Ap/PgcbSw4LNxvMWXMeugwMCX0AA==}
-    engines: {node: '>=8'}
-    dev: false
-
   /once/1.4.0:
     resolution: {integrity: sha1-WDsap3WWHUsROsF9nFC6753Xa9E=}
     dependencies:
@@ -1060,6 +1057,10 @@ packages:
       has-flag: 4.0.0
     dev: true
 
+  /svelte-actions/0.1.0:
+    resolution: {integrity: sha512-V6V2oYCkXK/AgGL6yAQfUBM7Gmqd57qX3WNhX/s79h7Dpfi+rVtL+2tUYABB/QMGeBpWetpsfrbnXIXLhJAHfQ==}
+    dev: false
+
   /svelte-check/2.2.6_@babel+core@7.15.5+svelte@3.43.0:
     resolution: {integrity: sha512-oJux/afbmcZO+N+ADXB88h6XANLie8Y2rh2qBlhgfkpr2c3t/q/T0w2JWrHqagaDL8zeNwO8a8RVFBkrRox8gg==}
     hasBin: true
@@ -1119,6 +1120,10 @@ packages:
   /svelte-multiselect/1.1.11:
     resolution: {integrity: sha512-YRcXpDspaz0M/2kioAhfIrJ1EpiJt44AGOb57uhNN4hKqA0i8c3oBKtvniaAoT+KkxpZdYhw8l4kiKGL4mDCVA==}
     dev: true
+
+  /svelte-outside-click/1.1.1:
+    resolution: {integrity: sha512-ndkeLX+U5kiENRgzunLOW7wJlYmV+iNRQ0oNamM7lUoHdr68SM2LkFFWrrSfBWlnFaGEvo0PkVXGOU1xzdrIdg==}
+    dev: false
 
   /svelte-preprocess/4.9.5_6756cd3c268b50b35f862d44d57c837b:
     resolution: {integrity: sha512-RbJbtuwKbuZq9RyzlljZUmmFNaojrg/zUEyDrS8io7haTcuITQmE4NERx8qiqHreApo6cQst5Qtp4MxUwr58Ew==}

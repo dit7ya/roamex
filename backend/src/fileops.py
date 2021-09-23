@@ -1,16 +1,15 @@
-# from database import engine
-from sqlmodel import Session
-from .models import Highlight, AnnotationBase, Page, Annotation
+from .models import Highlight, Page, Annotation
 from functools import lru_cache
 from orgparse import load
 from src import dbops
 
+from uuid import UUID
 from pathlib import Path
 
 # from yaml import FullLoader
 import yaml
 
-## Get config
+# Get config
 
 
 @lru_cache()
@@ -31,7 +30,16 @@ def get_config() -> dict:
     return config
 
 
-def replace_in_file(headline_and_body, new_subtree, filepath):
+def replace_in_file(old_content, new_content, filepath):
+    """Replace the old_content with the new_content."""
+    with open(filepath, "r") as f:
+        filedata = f.read()
+        filedata = filedata.replace(old_content, new_content)
+    with open(filepath, "w") as f:
+        f.write(filedata)
+
+
+def append_in_file(headline_and_body, new_subtree, filepath):
     """Append the new_subtree to the headline_and_body."""
     new_headline_and_body = headline_and_body + "\n" + new_subtree
 
@@ -65,6 +73,7 @@ def create_page(page: Page):
         ":END:\n"
         f"#+title: {page.title}\n"
         "\n"
+        f"{page.pageComment if page.pageComment else ''}"  # REVIEW Does this work?
         f"* Highlights\n"
         f"* Annotations\n"
     )
@@ -73,6 +82,36 @@ def create_page(page: Page):
     with open(org_roam_directory + "/roamex/" + filename, "w") as orgFile:
         # TODO Raise Error if file already exists
         orgFile.write(file_content)
+
+
+# TODO read_page_comment
+
+
+def update_page_comment(pageId: UUID, pageComment: str):
+
+    pageLocation = f"{org_roam_directory}/roamex/{pageId}.org"
+    # orgFile = load(pageLocation)
+    # HACK orgparse thinks root node cannot have PROPERTIES
+    # and returns the body from  orgFile.root.body without newlines
+    # so let us just do it in pure python
+    with open(pageLocation, "r") as orgFile:
+        contents = orgFile.readlines()
+    # REVIEW what if user enters more properties?? TODO
+    # TODO This is again ugly hack cause update will append instead
+    # of replacing
+    contents.insert(5, "\n" + pageComment + "\n")
+    with open(pageLocation, "w") as f:
+        contents = "".join(contents)
+        f.write(contents)
+
+    # current_comment = orgFile.root.body
+    # print(current_comment)
+    # # First five lines are properties
+    # props = "".join(current_comment.split("\n")[:5])
+    # print(props)
+
+    # # append props with pageComment
+    # append_in_file(props, pageComment, pageLocation)
 
 
 ## Read
@@ -102,7 +141,7 @@ def create_highlight(highlight: Highlight):
     )
     # Highlights is the 1st node REVIEW
     highlight_node = str(orgFile[1])  # TODO MAKE THIS LIKE ANNOTATION via filter
-    replace_in_file(highlight_node, content, pageLocation)
+    append_in_file(highlight_node, content, pageLocation)
 
 
 ## Read - NOTE not required
@@ -146,7 +185,7 @@ def create_annotation(annotation: Annotation):
             )[0]
         )
         # print(list(annotation_node))
-        replace_in_file(annotation_node, content, pageLocation)
+        append_in_file(annotation_node, content, pageLocation)
 
         return
     # TODO the other case

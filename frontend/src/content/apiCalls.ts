@@ -20,14 +20,21 @@ const requests = {
 
 export const Page = {
   readPage: (url: string): Promise<PageType> => {
-    const normalizedUrl = getNormalizedUrl(url);
-    return requests.get(`pages/?url=${normalizedUrl}`);
+    const normalizedUrlString = getNormalizedUrl(url).toString();
+    return requests.get(`pages/?url=${normalizedUrlString}`);
   },
 
   createPage: (page: PageType): Promise<any> => {
-    const normalizedUrl = getNormalizedUrl(page.url);
-    page.url = normalizedUrl;
+    const normalizedUrlString = getNormalizedUrl(page.url).toString();
+    page.url = normalizedUrlString;
     return requests.post("pages", page);
+  },
+
+  createOrUpdatePageComment: (
+    pageId: string,
+    pageComment: string
+  ): Promise<any> => {
+    return requests.put(`pages/${pageId}`, pageComment);
   },
 };
 

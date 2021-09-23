@@ -14,7 +14,7 @@ class Highlight(SQLModel, table=True):
     text: str
     originalText: str
     textAfter: str
-    pageId: UUID = Field(foreign_key="page.id")
+    pageId: UUID = Field(foreign_key="pagedb.id")
 
 
 class AnnotationBase(SQLModel):
@@ -27,7 +27,7 @@ class AnnotationBase(SQLModel):
 
 
 class AnnotationDB(AnnotationBase, table=True):
-    """AnnotationBase represents annotation data to be stored in the db."""
+    """AnnotationDB represents annotation data to be stored in the db."""
 
     # Rationale :
     # https://sqlmodel.tiangolo.com/tutorial/fastapi/multiple-models/#only-inherit-from-data-models
@@ -40,14 +40,21 @@ class Annotation(AnnotationBase):
     text: str
 
 
-class Page(SQLModel, table=True):
-    """Page represents a webpage.
-
-    NOTE ???? Page's url should be its primary key because in that way
-    the client can be stateless and will not have to store the ids.
-
-    """
+class PageBase(SQLModel):
+    """PageBase is the core of the page model."""
 
     id: UUID = Field(primary_key=True)
     url: AnyUrl
     title: str
+
+
+class PageDB(PageBase, table=True):
+    """The page schema for the DB."""
+
+    pass
+
+
+class Page(PageBase):
+    """Page represents a webpage in the API."""
+
+    pageComment: Optional[str]

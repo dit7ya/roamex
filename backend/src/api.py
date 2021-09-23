@@ -7,7 +7,7 @@ from uuid import UUID
 from pydantic import AnyUrl
 
 from .database import create_db_and_tables
-from .models import Page, Highlight, AnnotationBase, Annotation, AnnotationDB
+from .models import Page, Highlight, Annotation, AnnotationDB, PageBase, PageDB
 from fastapi import FastAPI, Response, status
 
 
@@ -29,6 +29,12 @@ def on_startup():
 @app.post("/pages", status_code=201)
 def create_page(page: Page):
 
+    pageDb = PageDB(
+        url=page.url,
+        title=page.title,
+        id=page.id,
+    )
+
     # fileops
     fileops.create_page(page)
 
@@ -36,21 +42,29 @@ def create_page(page: Page):
     # page object in its session it is no longer available
 
     # dbops
-    dbops.create_page(page)
+    dbops.create_page(pageDb)
 
     return {"message": "Page created."}
 
 
 ## Read
-@app.get("/pages/")
+@app.get("/pages")
 def read_page(url: AnyUrl):
 
     # dbops
-    page = dbops.read_page(url)
+    pageDb = dbops.read_page(url)
 
-    # FIXME fileops
+    # TODO add pageComment too
 
-    return page
+    return pageDb
+
+
+@app.put("/pages/{pageId}")
+def update_page(pageId: UUID, pageComment: str):
+
+    # REVIEW
+    fileops.update_page_comment(pageId, pageComment)
+    return {"message": "Page comment updated."}
 
 
 ## Update - NOTE Not Required
