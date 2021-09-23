@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import type { HighlightType, PageType, AnnotationType } from "./models";
+import { getNormalizedUrl } from "./utils";
 
 const instance = axios.create({
   baseURL: "http://127.0.0.1:8000/",
@@ -15,13 +16,19 @@ const requests = {
 };
 
 // Create a Page object with methods
+// We are also normalizing the Page URL for both read and create here
 
 export const Page = {
-  readPage: (url: string) => requests.get(`pages/?url=${url}`), // FIXME URL
+  readPage: (url: string) => {
+    const normalizedUrl = getNormalizedUrl(url);
+    return requests.get(`pages/?url=${normalizedUrl}`);
+  },
 
-  createPage: (page: PageType): Promise<PageType> =>
-    requests.post("pages", page),
-  // TODO readPage
+  createPage: (page: PageType): Promise<PageType> => {
+    const normalizedUrl = getNormalizedUrl(page.url);
+    page.url = normalizedUrl;
+    return requests.post("pages", page);
+  },
 };
 
 // Create a Highlight Object with methods
