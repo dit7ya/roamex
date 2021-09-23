@@ -4,6 +4,7 @@ export const getNormalizedUrl = (url) => {
   return normalizeUrl(url, {
     stripHash: true,
     stripProtocol: true,
-    removeQueryParameters: true,
+    removeQueryParameters: ["ref"], // removing other paramaters is not a good idea
+    sortQueryParameters: true,
   });
 };
