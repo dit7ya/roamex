@@ -19,12 +19,12 @@ const requests = {
 // We are also normalizing the Page URL for both read and create here
 
 export const Page = {
-  readPage: (url: string) => {
+  readPage: (url: string): Promise<PageType> => {
     const normalizedUrl = getNormalizedUrl(url);
     return requests.get(`pages/?url=${normalizedUrl}`);
   },
 
-  createPage: (page: PageType): Promise<PageType> => {
+  createPage: (page: PageType): Promise<any> => {
     const normalizedUrl = getNormalizedUrl(page.url);
     page.url = normalizedUrl;
     return requests.post("pages", page);
@@ -33,44 +33,20 @@ export const Page = {
 
 // Create a Highlight Object with methods
 export const Highlight = {
-  createHighlight: (highlight: HighlightType): Promise<HighlightType> =>
+  createHighlight: (highlight: HighlightType): Promise<any> =>
     requests.post("highlights", highlight),
-  getHighlights: (
-    pageId: string
-    // ): Promise<HighlightType> => // FIXME to UUID
-  ) => requests.get(`highlights/${pageId}`),
-  deleteHighlight: (highlightId: string): Promise<HighlightType> =>
+  getHighlights: (pageId: string): Promise<HighlightType[]> =>
+    requests.get(`highlights/${pageId}`),
+  deleteHighlight: (highlightId: string): Promise<any> =>
     requests.delete(`highlights/${highlightId}`),
 };
 
 // Create an Annotation Object with methods
 
 export const Annotation = {
-  createAnnotation: (annotation: AnnotationType): Promise<AnnotationType> =>
+  createAnnotation: (annotation: AnnotationType): Promise<any> =>
     requests.post("/annotations", annotation),
 };
 
 // TODO HACK REVIEW
 export const getOrgRoamNodes = () => requests.get("/orgRoamNodes");
-
-// export const readOrgFiles = async () => {
-//   const res = await axios.get(serverLocation + "orgFiles");
-//   return res.data;
-// };
-
-// export const getHeadlines = async (filepath) => {
-//   const res = await axios.get(
-//     serverLocation + "headlines/" + `?filepath=${filepath}`
-//   );
-//   return res.data;
-// };
-
-// export const getOrgRoamNodes = async () => {
-//   const res = await axios.get(serverLocation + "orgNodes");
-//   return res.data;
-// };
-
-// export const getOrgRoamFiles = async () => {
-//   const res = await axios.get(serverLocation + "orgRoamFiles");
-//   return res.data;
-// };
