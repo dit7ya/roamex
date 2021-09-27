@@ -5,17 +5,20 @@
     import { Page, Highlight, Annotation } from "../apiCalls";
     import type { PageType, HighlightType, AnnotationType } from "../models";
     import { onMount } from "svelte";
-  import NextEditor from "./NextEditor.svelte";
-    import AnnotationsList from "./AnnotationsList.svelte";
+    import NextEditor from "./NextEditor.svelte";
+    import Keydown from "svelte-keydown";
 
     let showTooltip = false;
-  let showEditor = false;
+    let showAnnotationEditor = false;
     let posLeft;
     let posTop;
     let highlight: HighlightType;
     let serialized;
- let annotation: AnnotationType;
-  let annotationText;
+    let annotation: AnnotationType;
+    let annotationText;
+
+    let showPageCommentEditor = false;
+    let pageComment;
 
     let pageId;
 
@@ -43,13 +46,49 @@
         });
     });
 
+    const createOrGetPageId = () => {
+        // If page exists in db, get its id, else create a new id and return it
+        // TODO implement this
+        return;
+    };
+
+    const handlePageCommentShow = () => {
+        showPageCommentEditor = true
+    };
+
+    const handlePageCommentSubmit = () => {
+        showPageCommentEditor = false;
+
+        // do we have this page in the db?
+        if (pageId) {
+            Page.createOrUpdatePageComment(pageId, pageComment);
+        } else {
+            // create a new page along with the comment
+
+            pageId = uuidv4();
+
+            const url = document.location.href;
+            const title = document.title;
+            // console.log(pageId);
+            const thisPage: PageType = {
+                id: pageId,
+                url: url,
+                title: title,
+                pageComment: pageComment,
+            };
+
+            console.log(thisPage)
+            Page.createPage(thisPage).then(() => console.log("Page created along with comment."));
+        }
+    };
+
     // const handleMouseup = async () => {
     const handleMouseup = () => {
         const selection = window.getSelection();
         console.log("handleMouseUp being executed, selection is", selection);
 
         if (selection.isCollapsed) {
-            showTooltip = false
+            showTooltip = false;
             return null;
         } else {
             // console.log(selection);
@@ -70,10 +109,10 @@
         }
     };
 
-// TODO
-///const createPageIfNotexist = () => {
- //
- //}
+    // TODO
+    ///const createPageIfNotexist = () => {
+    //
+    //}
 
     const handleHighlightClick = () => {
         showTooltip = false;
@@ -81,7 +120,7 @@
         const url = document.location.href;
         const title = document.title;
 
-        console.log(pageId)
+        console.log(pageId);
         // Do we already have this page created?
         if (!pageId) {
             // Create page
@@ -94,52 +133,51 @@
             };
             Page.createPage(thisPage).then(() => console.log("Page created"));
         }
-            highlight = {
-                id: serialized.uid, // TODO IMPORTANT REVIEW HOW UID becomes id
-                textBefore: serialized.textBefore,
-                text: serialized.text,
-                originalText: serialized.originalText,
-                textAfter: serialized.textAfter,
-                pageId: pageId,
-            };
-            console.log(highlight);
+        highlight = {
+            id: serialized.uid, // TODO IMPORTANT REVIEW HOW UID becomes id
+            textBefore: serialized.textBefore,
+            text: serialized.text,
+            originalText: serialized.originalText,
+            textAfter: serialized.textAfter,
+            pageId: pageId,
+        };
+        console.log(highlight);
 
         marker.paint(serialized);
         Highlight.createHighlight(highlight);
     };
 
+    const handleAnnotationClick = () => {
+        handleHighlightClick(); // REVIEW if this will provide highlight and page id
 
-  const handleAnnotationClick = () => {
-      handleHighlightClick(); // REVIEW if this will provide highlight and page id
+        showAnnotationEditor = true;
+    };
 
-      showEditor = true
+    const handleAnnotationSubmit = () => {
+        showAnnotationEditor = false;
 
-  };
+        const annotationId = uuidv4();
+        annotation = {
+            id: annotationId,
+            // orgNodeId: '', // FIXME REVIEW
+            highlightId: serialized.uid,
+            pageId: pageId,
+            text: annotationText,
+        };
 
-  const handleAnnotationSubmit = () => {
-      showEditor = false;
+        Annotation.createAnnotation(annotation);
+    };
 
-      const annotationId = uuidv4();
-      annotation = {
-          id: annotationId,
-          // orgNodeId: '', // FIXME REVIEW
-          highlightId: serialized.uid,
-          pageId: pageId,
-          text: annotationText
-      }
-
-      Annotation.createAnnotation(annotation)
-  }
-
-
- // const callPageComment = () => {
- // createPageIfNotexist()
- // TODO capture comment text
- // TODO send the text to the page
- //}
+    // const callPageComment = () => {
+    // createPageIfNotexist()
+    // TODO capture comment text
+    // TODO send the text to the page
+    //}
 </script>
 
 <svelte:window on:mouseup={handleMouseup} />
+
+<Keydown pauseOnInput on:c={handlePageCommentShow} />
 
 <div>
     {#if showTooltip}
@@ -147,12 +185,22 @@
             <Tooltip
                 left={posLeft}
                 top={posTop}
-                handleHighlightClick={handleHighlightClick}
+                {handleHighlightClick}
                 handleAnnotateClick={handleAnnotationClick}
             />
         </div>
     {/if}
-    {#if showEditor}
-    <NextEditor bind:editorContent={annotationText} handleClick = {() => handleAnnotationSubmit()}  />
+    {#if showAnnotationEditor}
+        <NextEditor
+            bind:editorContent={annotationText}
+            handleClick={() => handleAnnotationSubmit()}
+        />
+    {/if}
+
+    {#if showPageCommentEditor}
+        <NextEditor
+            bind:editorContent={pageComment}
+            handleClick={() => handlePageCommentSubmit()}
+        />
     {/if}
 </div>

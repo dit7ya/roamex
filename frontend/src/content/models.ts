@@ -17,7 +17,7 @@ export interface AnnotationType {
 
 export interface PageType {
   id: string; // FIXME
-  url: string; //FIXME
+  url: string;
   title: string;
   pageComment?: string;
 }

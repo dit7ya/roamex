@@ -58,3 +58,7 @@ class Page(PageBase):
     """Page represents a webpage in the API."""
 
     pageComment: Optional[str]
+
+
+class PageComment(SQLModel):
+    text: str

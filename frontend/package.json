@@ -28,6 +28,7 @@
     "simple-svelte-autocomplete": "^2.2.3",
     "svelte": "^3.43.0",
     "svelte-check": "^2.2.6",
+    "svelte-keydown": "^0.3.1",
     "svelte-loader": "^3.1.2",
     "svelte-multiselect": "^1.1.11",
     "svelte-preprocess": "^4.9.5",

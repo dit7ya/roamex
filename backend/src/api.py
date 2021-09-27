@@ -7,7 +7,15 @@ from uuid import UUID
 from pydantic import AnyUrl
 
 from .database import create_db_and_tables
-from .models import Page, Highlight, Annotation, AnnotationDB, PageBase, PageDB
+from .models import (
+    Page,
+    Highlight,
+    Annotation,
+    AnnotationDB,
+    PageBase,
+    PageDB,
+    PageComment,
+)
 from fastapi import FastAPI, Response, status
 
 
@@ -60,10 +68,10 @@ def read_page(url: AnyUrl):
 
 
 @app.put("/pages/{pageId}")
-def update_page(pageId: UUID, pageComment: str):
+def update_page(pageId: UUID, pageComment: PageComment):
 
     # REVIEW
-    fileops.update_page_comment(pageId, pageComment)
+    fileops.update_page_comment(pageId, pageComment.text)
     return {"message": "Page comment updated."}
 
 

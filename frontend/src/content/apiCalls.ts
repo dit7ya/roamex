@@ -19,6 +19,7 @@ const requests = {
 // We are also normalizing the Page URL for both read and create here
 
 export const Page = {
+  // TODO if the page does not exist then the return type is something else
   readPage: (url: string): Promise<PageType> => {
     const normalizedUrlString = getNormalizedUrl(url).toString();
     return requests.get(`pages/?url=${normalizedUrlString}`);
@@ -34,7 +35,7 @@ export const Page = {
     pageId: string,
     pageComment: string
   ): Promise<any> => {
-    return requests.put(`pages/${pageId}`, pageComment);
+    return requests.put(`pages/${pageId}`, { text: pageComment }); // FIXME better model
   },
 };
 

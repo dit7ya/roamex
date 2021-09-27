@@ -99,7 +99,8 @@ def update_page_comment(pageId: UUID, pageComment: str):
     # REVIEW what if user enters more properties?? TODO
     # TODO This is again ugly hack cause update will append instead
     # of replacing
-    contents.insert(5, "\n" + pageComment + "\n")
+    contents.insert(5, f"\n{pageComment}")
+    contents.insert(6, "\n\n")
     with open(pageLocation, "w") as f:
         contents = "".join(contents)
         f.write(contents)
