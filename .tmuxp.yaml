@@ -1,0 +1,15 @@
+session_name: roamex
+start_directory: "./"
+windows:
+  - window_name: roamex dev
+    layout: main-vertical
+    panes:
+      - shell_command: # pane no. 1
+          - cd backend
+          - poetry run uvicorn src.api:app --reload
+      - shell_command: # pane no. 2
+          - cd frontend
+          - node buildscript.js
+      - shell_command: # pane no. 3
+          - cd frontend/dist
+      - echo forth pane # pane no. 4
