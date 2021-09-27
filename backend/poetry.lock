@@ -405,16 +405,23 @@ typing-extensions = ">=3.7.4"
 
 [[package]]
 name = "sqlmodel"
-version = "0.0.4"
+version = "0"
 description = "SQLModel, SQL databases in Python, designed for simplicity, compatibility, and robustness."
 category = "main"
 optional = false
-python-versions = ">=3.6.1,<4.0.0"
+python-versions = "^3.6.1"
+develop = false
 
 [package.dependencies]
-pydantic = ">=1.8.2,<2.0.0"
+pydantic = "^1.8.2"
 SQLAlchemy = ">=1.4.17,<1.5.0"
 sqlalchemy2-stubs = "*"
+
+[package.source]
+type = "git"
+url = "git@github.com:macrosfirst/sqlmodel.git"
+reference = "main"
+resolved_reference = "ffc94574afd17dff5edea9a6ce06927e7558ac51"
 
 [[package]]
 name = "starlette"
@@ -529,7 +536,7 @@ python-versions = ">=3.6.1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "1db4a12acd0911c9ec1c2e911265da2c0afd02048179bea62f3842d4876f6a3a"
+content-hash = "b4b4abb47d82e8bf2a0a83516ef83a1b00f2b4ff751bf47d16408672f6e9161a"
 
 [metadata.files]
 aiofiles = [
@@ -873,10 +880,7 @@ sqlalchemy2-stubs = [
     {file = "sqlalchemy2-stubs-0.0.2a15.tar.gz", hash = "sha256:9336e0724c985623e055e2db28e8d78a62b40a2628b862c6cd50d7942fd5a238"},
     {file = "sqlalchemy2_stubs-0.0.2a15-py3-none-any.whl", hash = "sha256:3da19252c87c1ae6bf0e49c2873e72a6e5684a1ede2490c8b75b78834239258b"},
 ]
-sqlmodel = [
-    {file = "sqlmodel-0.0.4-py3-none-any.whl", hash = "sha256:441224eea75ea3799661dad0f9599bbd70322ce7d083f30f6741ebc807bc3ee6"},
-    {file = "sqlmodel-0.0.4.tar.gz", hash = "sha256:9503befd4374a8e84e9432b344dc9488e9ca2cc4bd1c944ab6837c1bae0b9837"},
-]
+sqlmodel = []
 starlette = [
     {file = "starlette-0.14.2-py3-none-any.whl", hash = "sha256:3c8e48e52736b3161e34c9f0e8153b4f32ec5d8995a3ee1d59410d92f75162ed"},
     {file = "starlette-0.14.2.tar.gz", hash = "sha256:7d49f4a27f8742262ef1470608c59ddbc66baf37c148e938c7038e6bc7a998aa"},
