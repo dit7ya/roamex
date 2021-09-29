@@ -1,4 +1,12 @@
 #+TITLE: Readme
+
+Annotate and highlight on the web but store the data in org files, while seamlessly referencing org-roam nodes.
+
+* WARNING
+
+This is in a horribly WIP state. Expect bugs and low-quality code all around.
+
+
 * Installation and Usage
 ** Backend
 
