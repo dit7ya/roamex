@@ -1,13 +1,13 @@
-#+TITLE: Readme
+#+TITLE: Roamex
 
 Annotate and highlight on the web but store the data in org files, while seamlessly referencing org-roam nodes.
 
 * WARNING
 
-This is in a horribly WIP state. Expect bugs and low-quality code all around.
+This is in a horribly WIP state, not at all ready for daily usage. Expect bugs, breaking changes, and low-quality code all around. You are still welcome to try it and provide feedback if you are super excited about the idea of finally being able to integrating org-modes and the browser.
 
 
-* Installation and Usage
+* Installation
 ** Backend
 
 #+begin_src sh
@@ -21,3 +21,38 @@ roamex serve
 #+end_src
 ** Frontend
 Get the .xpi file from me and install in Firefox
+* Usage
+- Create a config file at ~~/.config/roamex/config.yaml~ which has the following three fields.
+
+ #+begin_src yaml
+org_roam_directory : "<PATH TO YOUR ORG ROAM DIRECTORY>"
+org_roam_db_location : "<PATH TO YOUR ORG ROAM DB>"
+roamex_db_location : "<PATH WHERE YOU WANT YOUR ROAMEX DB TO BE>"
+ #+end_src
+
+- Create a directory called ~roamex~ under your org roam directory.
+
+- Open a webpage, select some text, follow the buttons.
+* Developing
+
+- clone repo locally
+- follow first two steps of usage
+
+- run the backend server
+#+begin_src sh
+cd backend
+poetry run uvicorn src.api:app --reload
+#+end_src
+
+- start the fronend build script
+#+begin_src sh
+cd frontend
+node buildscript.js
+#+end_src
+- start a firefox with the extension installed via web-ext
+
+
+#+begin_src sh
+cd frontend/dist
+web-ext run -v
+#+end_src
