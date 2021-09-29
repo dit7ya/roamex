@@ -2,7 +2,6 @@ from sqlmodel import SQLModel, create_engine, Session
 from .fileops import get_config
 
 config = get_config()
-# sqlite_file_name = "/home/halum/.config/roamex/database.db"
 sqlite_file_name = config["roamex_db_location"]
 
 sqlite_url = f"sqlite:///{sqlite_file_name}"
