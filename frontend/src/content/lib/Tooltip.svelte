@@ -1,4 +1,5 @@
 <script>
+  import { AlignLeftIcon, Edit3Icon } from "svelte-feather-icons";
   export let left;
   export let top;
   export let handleHighlightClick;
@@ -9,16 +10,16 @@
   <div class="flex">
     <button
       on:click={handleHighlightClick}
-      class="px-2 py-1 bg-blue-600 rounded-md text-white outline-none focus:ring-4 hover:bg-blue-800 shadow-lg flex font-bold m-1"
+      class="px-2 py-1 bg-blue-500 rounded-md text-white outline-none focus:ring-4 hover:bg-blue-800 shadow-lg flex font-bold m-1"
     >
-      Highlight
+      <Edit3Icon size="15" />
     </button>
 
     <button
       on:click={handleAnnotateClick}
-      class="px-2 py-1 bg-blue-600 rounded-md text-white outline-none focus:ring-4 hover:bg-blue-800 shadow-lg flex font-bold m-1"
+      class="px-2 py-1 bg-blue-500 rounded-md text-white outline-none focus:ring-4 hover:bg-blue-800 shadow-lg flex font-bold m-1"
     >
-      Annotate
+      <AlignLeftIcon size="15" />
     </button>
   </div>
 </div>
