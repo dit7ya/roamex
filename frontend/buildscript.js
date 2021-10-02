@@ -1,9 +1,7 @@
 const fs = require("fs");
 const esbuild = require("esbuild");
 const sveltePlugin = require("esbuild-svelte");
-// import autoPreprocess from 'svelte-preprocess';
 const autoPreprocess = require("svelte-preprocess");
-// import { windi } from "svelte-windicss-preprocess";
 const { windi } = require("svelte-windicss-preprocess");
 
 // make sure the directoy exists before stuff gets put into it

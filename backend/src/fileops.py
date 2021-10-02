@@ -6,12 +6,11 @@ from src import dbops
 from uuid import UUID
 from pathlib import Path
 
-# from yaml import FullLoader
 import yaml
 
+import os
+
 # Get config
-
-
 @lru_cache()
 def get_config() -> dict:
     """Load the config from ~/.config/roamex/config.yaml.
@@ -53,6 +52,15 @@ def append_in_file(headline_and_body, new_subtree, filepath):
 config = get_config()
 
 org_roam_directory = config["org_roam_directory"]
+
+
+def create_roamex_directory():
+    """Create roamex directory inside org_roam_directory if does not already exist."""
+    roamex_dir_location = f"{org_roam_directory}/roamex/"
+    if not os.path.exists(roamex_dir_location):
+        os.makedirs(roamex_dir_location)
+
+    return
 
 
 ###########################################################
