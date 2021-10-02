@@ -18,13 +18,15 @@ from .models import (
 )
 from fastapi import FastAPI, Response, status
 
+
+# create_db_and_tables()  # TODO Look at me
+
 app = FastAPI()
 
 
 @app.on_event("startup")
 def on_startup():
     create_db_and_tables()
-    fileops.create_roamex_directory()
 
 
 ###########################################################
