@@ -8,6 +8,5 @@ roamex.id = "roamex-app";
 
 document.body.appendChild(roamex);
 
-const newRoot = roamex.attachShadow({ mode: "open" });
-// new App({ target: roamex });
-new App({ target: newRoot });
+const roamexShadowRoot = roamex.attachShadow({ mode: "open" });
+new App({ target: roamexShadowRoot });
