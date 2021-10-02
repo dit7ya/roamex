@@ -98,29 +98,21 @@ def create_page(page: Page):
 def update_page_comment(pageId: UUID, pageComment: str):
 
     pageLocation = f"{org_roam_directory}/roamex/{pageId}.org"
-    # orgFile = load(pageLocation)
+
     # HACK orgparse thinks root node cannot have PROPERTIES
     # and returns the body from  orgFile.root.body without newlines
     # so let us just do it in pure python
-    with open(pageLocation, "r") as orgFile:
-        contents = orgFile.readlines()
+    #
     # REVIEW what if user enters more properties?? TODO
     # TODO This is again ugly hack cause update will append instead
     # of replacing
-    contents.insert(5, f"\n{pageComment}")
-    contents.insert(6, "\n\n")
-    with open(pageLocation, "w") as f:
-        contents = "".join(contents)
-        f.write(contents)
 
-    # current_comment = orgFile.root.body
-    # print(current_comment)
-    # # First five lines are properties
-    # props = "".join(current_comment.split("\n")[:5])
-    # print(props)
+    # HACK prepend `* Highlights` with pageComment
+    old_content = "* Highlights"
+    new_content = pageComment + "\n\n* Highlights"
+    # print(new_content)
 
-    # # append props with pageComment
-    # append_in_file(props, pageComment, pageLocation)
+    replace_in_file(old_content, new_content, pageLocation)
 
 
 ## Read
