@@ -146,6 +146,7 @@ def create_highlight(highlight: Highlight):
         f"** {highlight.originalText}\n"
         f":PROPERTIES:\n"
         f":ID: {highlight.id}\n"
+        f":ROAM_EXCLUDE: t\n"
         f":END:\n"
     )
     # Highlights is the 1st node REVIEW
@@ -181,6 +182,7 @@ def create_annotation(annotation: Annotation):
             f"** Annotation on [[id:{highlightId}][{highlight_text}]]\n"
             ":PROPERTIES:\n"
             f":ID: {annotation.id}\n"
+            f":ROAM_EXCLUDE: t\n"
             ":END:\n"
             "\n"
             f"{annotation.text}\n"
