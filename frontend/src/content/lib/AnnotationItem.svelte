@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Edit24 from "carbon-icons-svelte/lib/Edit24";
-    import Delete24 from "carbon-icons-svelte/lib/Delete24";
+  // import Edit24 from "carbon-icons-svelte/lib/Edit24";
+  // import Delete24 from "carbon-icons-svelte/lib/Delete24";
     let showItem = true;
     export let highlight;
     export let annotation;
@@ -23,7 +23,8 @@
                 on:click={handleEdit}
                 class="px-4 py-2 bg-blue-600 rounded-md text-white outline-none focus:ring-4 hover:bg-blue-800 shadow-lg mx-5 flex font-bold"
             >
-                <Edit24 />
+                <!-- <Edit24 /> -->
+                Edit
             </button>
 
             <button
@@ -33,7 +34,8 @@
                 }}
                 class="px-4 py-2 bg-blue-600 rounded-md text-white outline-none focus:ring-4 hover:bg-blue-800 shadow-lg mx-5 flex font-bold"
             >
-                <Delete24 />
+                <!-- <Delete24 /> -->
+                Delete
             </button>
         </div>
     </div>

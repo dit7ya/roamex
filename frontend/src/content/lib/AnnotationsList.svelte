@@ -19,7 +19,7 @@
                     annotation={note.annotation}
                     handleEdit={() => console.log("Edit has been clicked.")}
                     handleDelete={() => {
-                        cudNote("delete", note);
+                                 /* cudNote("delete", note); */
                     }}
                 />
             </div>
