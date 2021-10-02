@@ -81,7 +81,7 @@ def create_page(page: Page):
         ":END:\n"
         f"#+title: {page.title}\n"
         "\n"
-        f"{page.pageComment if page.pageComment else ''}"  # REVIEW Does this work?
+        f"{page.pageComment if page.pageComment else ''}\n\n"  # REVIEW Does this work?
         f"* Highlights\n"
         f"* Annotations\n"
     )
