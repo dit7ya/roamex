@@ -57,12 +57,9 @@ def create_page(page: Page):
 @app.get("/pages")
 def read_page(url: AnyUrl):
 
-    # dbops
-    pageDb = dbops.read_page(url)
-
     # TODO add pageComment too
 
-    return pageDb
+    return dbops.read_page(url)
 
 
 @app.put("/pages/{pageId}")
@@ -99,9 +96,7 @@ def create_highlight(highlight: Highlight):
 def read_highlights(pageId: UUID):
 
     print(pageId)
-    highlights = dbops.read_highlights(pageId)
-
-    return highlights
+    return dbops.read_highlights(pageId)
 
 
 ## Update - NOTE Not Required
@@ -147,11 +142,9 @@ def create_annotation(annotation: Annotation):
 @app.get("/annotations/{url}")
 def read_annotations(url: AnyUrl):
 
-    # dbops
-    annotations = dbops.read_annotations(url)
     # TODO fileops
 
-    return annotations
+    return dbops.read_annotations(url)
 
 
 ## Update TODO
@@ -180,6 +173,4 @@ def delete_annotation(id: UUID):
 
 @app.get("/orgRoamNodes")
 def read_org_roam_nodes():
-    org_roam_nodes = dbops.read_org_roam_nodes()
-
-    return org_roam_nodes
+    return dbops.read_org_roam_nodes()
