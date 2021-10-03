@@ -11,7 +11,7 @@
 
     onMount(async () => {
         const orgNodes = await getOrgRoamNodes();
-        console.log(orgNodes)
+        // console.log(orgNodes)
 
         let values = orgNodes.map((x) => ({ key: x.title, value: x.id }));
 
@@ -41,7 +41,7 @@
                 return `<div class="roamex-menu-item">${item.string}</div>`;
             },
             menuShowMinLength: 2,
-            menuItemLimit: 7,
+            // menuItemLimit: 7,
             // menuContainer: document.getElementById("roamex-app").shadowRoot
         });
         // tribute.attach(document.querySelectorAll(".mentionable"));
