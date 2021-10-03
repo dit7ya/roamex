@@ -1,6 +1,7 @@
 from .models import Highlight, Page, Annotation
 from functools import lru_cache
-from orgparse import load
+
+# from orgparse import load
 from src import dbops
 
 from uuid import UUID
@@ -11,6 +12,8 @@ import yaml
 import os
 
 # Get config
+
+
 @lru_cache()
 def get_config() -> dict:
     """Load the config from ~/.config/roamex/config.yaml.
@@ -39,7 +42,11 @@ def replace_in_file(old_content, new_content, filepath):
 
 
 def append_in_file(headline_and_body, new_subtree, filepath):
-    """Append the new_subtree to the headline_and_body."""
+    """Append the new_subtree to the headline_and_body.
+
+    Usage of this currently works for the toplevel content only,
+    and not the children nodes.
+    """
     new_headline_and_body = headline_and_body + "\n" + new_subtree
 
     with open(filepath, "r") as f:
@@ -132,8 +139,6 @@ def create_highlight(highlight: Highlight):
 
     pageLocation = f"{org_roam_directory}/roamex/{highlight.pageId}.org"
 
-    orgFile = load(pageLocation)
-
     content = (
         f"** {highlight.originalText}\n"
         f":PROPERTIES:\n"
@@ -141,9 +146,13 @@ def create_highlight(highlight: Highlight):
         f":ROAM_EXCLUDE: t\n"
         f":END:\n"
     )
-    # Highlights is the 1st node REVIEW
-    highlight_node = str(orgFile[1])  # TODO MAKE THIS LIKE ANNOTATION via filter
-    append_in_file(highlight_node, content, pageLocation)
+
+    # HACK append before the annotation node
+
+    old_content = "* Annotations"
+    new_content = content + "\n\n* Annotations"
+
+    replace_in_file(old_content, new_content, pageLocation)
 
 
 ## Read - NOTE not required
@@ -168,8 +177,6 @@ def create_annotation(annotation: Annotation):
         highlightId = annotation.highlightId
         highlight_text = dbops.read_highlight(highlightId).originalText
 
-        orgFile = load(pageLocation)
-
         content = (
             f"** Annotation on [[id:{highlightId}][{highlight_text}]]\n"
             ":PROPERTIES:\n"
@@ -179,16 +186,10 @@ def create_annotation(annotation: Annotation):
             "\n"
             f"{annotation.text}\n"
         )
-        # Annotation is the 2nd node REVIEW
 
-        # print(list(map(lambda x: {x.heading: x.level}, orgFile)))
-        annotation_node = str(
-            list(
-                filter(lambda x: x.heading == "Annotations" and x.level == 1, orgFile)
-            )[0]
-        )
-        # print(list(annotation_node))
-        append_in_file(annotation_node, content, pageLocation)
+        # HACK Just append to the file
+        with open(pageLocation, "a") as f:
+            f.write(content)
 
         return
     # TODO the other case
