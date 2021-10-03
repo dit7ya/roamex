@@ -6,7 +6,8 @@
     import type { PageType, HighlightType, AnnotationType } from "../models";
     import { onMount } from "svelte";
     import NextEditor from "./NextEditor.svelte";
-    import Keydown from "svelte-keydown";
+
+    import hotkeys from "hotkeys-js";
 
     let showTooltip = false;
     let showAnnotationEditor = false;
@@ -44,6 +45,10 @@
                 });
             }
         });
+
+        hotkeys("shift+c", () => {
+            handlePageCommentShow()
+        });
     });
 
     const createOrGetPageId = () => {
@@ -53,7 +58,7 @@
     };
 
     const handlePageCommentShow = () => {
-        showPageCommentEditor = true
+        showPageCommentEditor = true;
     };
 
     const handlePageCommentSubmit = () => {
@@ -77,8 +82,10 @@
                 pageComment: pageComment,
             };
 
-            console.log(thisPage)
-            Page.createPage(thisPage).then(() => console.log("Page created along with comment."));
+            console.log(thisPage);
+            Page.createPage(thisPage).then(() =>
+                console.log("Page created along with comment.")
+            );
         }
     };
 
@@ -177,7 +184,6 @@
 
 <svelte:window on:mouseup={handleMouseup} />
 
-<Keydown pauseOnInput on:c={handlePageCommentShow} />
 
 <div>
     {#if showTooltip}
@@ -191,12 +197,13 @@
         </div>
     {/if}
     {#if showAnnotationEditor}
-
         <!-- TODO need to discard the selected highlight a-->
         <NextEditor
             bind:editorContent={annotationText}
             handleClick={() => handleAnnotationSubmit()}
-            handleClose={() => {showAnnotationEditor = false}}
+            handleClose={() => {
+                showAnnotationEditor = false;
+            }}
         />
     {/if}
 
@@ -204,7 +211,9 @@
         <NextEditor
             bind:editorContent={pageComment}
             handleClick={() => handlePageCommentSubmit()}
-            handleClose={() => {showPageCommentEditor = false}}
+            handleClose={() => {
+                showPageCommentEditor = false;
+            }}
         />
     {/if}
 </div>
