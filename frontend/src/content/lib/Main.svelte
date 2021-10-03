@@ -191,9 +191,12 @@
         </div>
     {/if}
     {#if showAnnotationEditor}
+
+        <!-- TODO need to discard the selected highlight a-->
         <NextEditor
             bind:editorContent={annotationText}
             handleClick={() => handleAnnotationSubmit()}
+            handleClose={() => {showAnnotationEditor = false}}
         />
     {/if}
 
@@ -201,6 +204,7 @@
         <NextEditor
             bind:editorContent={pageComment}
             handleClick={() => handlePageCommentSubmit()}
+            handleClose={() => {showPageCommentEditor = false}}
         />
     {/if}
 </div>

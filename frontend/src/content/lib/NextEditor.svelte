@@ -1,13 +1,14 @@
 <script>
     import Tribute from "tributejs";
     import { onMount } from "svelte";
-  import { getOrgRoamNodes } from "../apiCalls.js";
-  // import NodeChoice from "./NodeChoice.svelte";
+    import { getOrgRoamNodes } from "../apiCalls.js";
+    // import NodeChoice from "./NodeChoice.svelte";
 
     export let editorContent = "";
     export let handleClick;
-  // export let selectedFile;
-  // export let selectedNode;
+    export let handleClose;
+    // export let selectedFile;
+    // export let selectedNode;
 
     onMount(async () => {
         const orgNodes = await getOrgRoamNodes();
@@ -45,7 +46,11 @@
             // menuContainer: document.getElementById("roamex-app").shadowRoot
         });
         // tribute.attach(document.querySelectorAll(".mentionable"));
-        tribute.attach(document.getElementById("roamex-app").shadowRoot.querySelector(".mentionable"));
+        tribute.attach(
+            document
+                .getElementById("roamex-app")
+                .shadowRoot.querySelector(".mentionable")
+        );
     });
 </script>
 
@@ -63,15 +68,27 @@
         <!-- <div class="flex my-4">
              <NodeChoice bind:selectedFile bind:selectedNode />
              </div> -->
-        <button
-            on:click={() => {
-                handleClick();
-                editorContent = "";
-            }}
-            class="px-4 py-2 bg-blue-600 rounded-md text-white outline-none focus:ring-4 hover:bg-blue-800 shadow-lg mx-5 flex font-bold"
-        >
-            Save</button
-        >
+        <div class="flex mt-4">
+            <button
+                on:click={() => {
+                    handleClick();
+                    editorContent = "";
+                }}
+                class="px-2 py-1 bg-blue-500 rounded-md text-white outline-none focus:ring-4 hover:bg-blue-800 shadow-lg flex font-bold m-1"
+            >
+                Save</button
+            >
+
+            <button
+                on:click={() => {
+                    handleClose();
+                    editorContent = "";
+                }}
+                class="px-2 py-1 bg-blue-500 rounded-md text-white outline-none focus:ring-4 hover:bg-blue-800 shadow-lg flex font-bold m-1"
+            >
+                Discard</button
+            >
+        </div>
     </div>
 </div>
 
